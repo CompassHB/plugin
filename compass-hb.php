@@ -55,7 +55,7 @@ function slug_register_eventtimes() {
 }
 
 /**
- * Get the value of the "starship" field
+ * Get the value of the custom field
  *
  * @param array $object Details of current post.
  * @param string $field_name Name of field.
@@ -66,3 +66,152 @@ function slug_register_eventtimes() {
 function slug_get_custom_meta( $object, $field_name, $request ) {
     return get_post_meta( $object[ 'id' ], $field_name, true );
 }
+
+/**
+ * Add users without requiring an email address
+ * For sermon/teachers, etc.
+ */
+add_action( 'user_profile_update_errors', 'remove_empty_email_error' );
+
+function remove_empty_email_error( $arg ) {
+    if ( !empty( $arg->errors['empty_email'] ) ) unset( $arg->errors['empty_email'] );
+}
+
+
+/**
+ * ACF config
+ */
+if( function_exists('acf_add_local_field_group') ):
+
+acf_add_local_field_group(array (
+	'key' => 'group_578497be9e603',
+	'title' => 'Series Feature Image (Tag)',
+	'fields' => array (
+		array (
+			'key' => 'field_578497dd46a45',
+			'label' => 'Sermon Series Featured Image',
+			'name' => 'series_image',
+			'type' => 'image',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'return_format' => 'array',
+			'preview_size' => 'thumbnail',
+			'library' => 'all',
+			'min_width' => '',
+			'min_height' => '',
+			'min_size' => '',
+			'max_width' => '',
+			'max_height' => '',
+			'max_size' => '',
+			'mime_types' => '',
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'taxonomy',
+				'operator' => '==',
+				'value' => 'post_tag',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
+	'active' => 1,
+	'description' => '',
+));
+
+acf_add_local_field_group(array (
+	'key' => 'group_57789739a333d',
+	'title' => 'Sermon Text & Series (Category)',
+	'fields' => array (
+		array (
+			'key' => 'field_572d29ea9cc18',
+			'label' => 'Scripture Text',
+			'name' => 'text',
+			'type' => 'text',
+			'instructions' => 'Scripture reference. Book, chapter and verse. Input "Various" otherwise.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'default_value' => '',
+			'placeholder' => '',
+			'prepend' => '',
+			'append' => '',
+			'formatting' => 'html',
+			'maxlength' => '',
+			'readonly' => 0,
+			'disabled' => 0,
+		),
+		array (
+			'key' => 'field_5768c51138762',
+			'label' => 'Series',
+			'name' => 'series',
+			'type' => 'taxonomy',
+			'instructions' => 'To add a new Sermon Series, create a new Tag under the Posts menu. Leave blank for no series.',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'taxonomy' => 'post_tag',
+			'field_type' => 'select',
+			'allow_null' => 1,
+			'add_term' => 1,
+			'save_terms' => 0,
+			'load_terms' => 0,
+			'return_format' => 'object',
+			'multiple' => 0,
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'post_category',
+				'operator' => '==',
+				'value' => 'category:sermon',
+			),
+		),
+		array (
+			array (
+				'param' => 'post_category',
+				'operator' => '==',
+				'value' => 'category:message',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'acf_after_title',
+	'style' => 'seamless',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => array (
+		0 => 'permalink',
+		1 => 'custom_fields',
+		2 => 'discussion',
+		3 => 'comments',
+		4 => 'slug',
+		5 => 'format',
+		6 => 'send-trackbacks',
+	),
+	'active' => 1,
+	'description' => '',
+));
+
+endif;
