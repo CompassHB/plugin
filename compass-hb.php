@@ -52,6 +52,7 @@ function slug_register_eventtimes() {
             'schema'          => null,
         )
     );
+
 }
 
 /**
