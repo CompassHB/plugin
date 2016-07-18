@@ -32,6 +32,16 @@ function tribe_events_rest_support()
 
 }
 
+function rest_prepare_post_tag( $response, $object ) {
+    if ( $object instanceof WP_Term ) {
+        $response->data['acf'] = get_fields( $object->taxonomy . '_' . $object->term_id );
+    }
+
+    return $response;
+}
+
+add_filter( 'rest_prepare_post_tag', 'rest_prepare_post_tag', 10, 2 );
+
 // We need to return some additional fields in the event API
 // such as the start and end date
 add_action( 'rest_api_init', 'slug_register_eventtimes' );
@@ -52,7 +62,6 @@ function slug_register_eventtimes() {
             'schema'          => null,
         )
     );
-
 }
 
 /**
@@ -211,6 +220,50 @@ acf_add_local_field_group(array (
 		5 => 'format',
 		6 => 'send-trackbacks',
 	),
+	'active' => 1,
+	'description' => '',
+));
+
+
+acf_add_local_field_group(array (
+	'key' => 'group_57886d35e281b',
+	'title' => 'Sermon Worksheet',
+	'fields' => array (
+		array (
+			'key' => 'field_57886d3d4dee6',
+			'label' => 'Worksheet',
+			'name' => 'worksheet',
+			'type' => 'file',
+			'instructions' => 'Supported: .pdf',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array (
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'return_format' => 'array',
+			'library' => 'uploadedTo',
+			'min_size' => '',
+			'max_size' => '',
+			'mime_types' => 'pdf',
+		),
+	),
+	'location' => array (
+		array (
+			array (
+				'param' => 'post_category',
+				'operator' => '==',
+				'value' => 'category:sermon',
+			),
+		),
+	),
+	'menu_order' => 0,
+	'position' => 'normal',
+	'style' => 'default',
+	'label_placement' => 'top',
+	'instruction_placement' => 'label',
+	'hide_on_screen' => '',
 	'active' => 1,
 	'description' => '',
 ));
