@@ -3,9 +3,39 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Brad Smith
-Version: 1.1.1
+Version: 1.2
 GitHub Plugin URI: compasshb/plugin
 */
+
+
+/**
+ * Modify REST API content for pages to force
+ * shortcodes to render since Visual Composer does not
+ * do this
+ */
+add_action( 'rest_api_init', function ()
+{
+   register_rest_field(
+          'page',
+          'content',
+          array(
+                 'get_callback'    => 'compasshb_do_shortcodes',
+                 'update_callback' => null,
+                 'schema'          => null,
+          )
+       );
+});
+
+function compasshb_do_shortcodes( $object, $field_name, $request )
+{
+   WPBMap::addAllMappedShortcodes(); // This does all the work
+
+   global $post;
+   $post = get_post ($object['id']);
+   $output['rendered'] = apply_filters( 'the_content', $post->post_content );
+
+   return $output;
+}
 
 
 /**
