@@ -3,9 +3,36 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Brad Smith
-Version: 1.2
+Version: 1.3
 GitHub Plugin URI: compasshb/plugin
 */
+
+/**
+ * Add Scripture of the Day custom logo
+ * widget to site admin dashboard
+ */
+add_action( 'wp_dashboard_setup', 'register_my_dashboard_widget' );
+function register_my_dashboard_widget() {
+	$blog_id = get_current_blog_id();
+	// Only show on Scripture of the Day site
+	if ($blog_id == 8) {
+		wp_add_dashboard_widget(
+			'my_dashboard_widget',
+			'Scripture of the Day Logo',
+			'my_dashboard_widget_display'
+		);
+	}
+}
+
+function my_dashboard_widget_display() {
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+	echo '<p>This is the image shown on the homepage. It can be changed here.</p>';
+	echo '<p><img src="' . $image[0] . '"/></p>';
+	echo '<p><input type="button" onclick="location.href=\'/reading/wp-admin/customize.php\';" value="Change Logo" /></p>';
+	echo '<p>1. Click <em>Change Logo</em> button above<br/>2. Click on <strong>Site Identity->Change Logo</strong><br/>3. Click the <em>Save</em> button</p>';
+}
+
 
 
 /**
