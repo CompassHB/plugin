@@ -3,9 +3,32 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Brad Smith
-Version: 1.3
+Version: 1.4
 GitHub Plugin URI: compasshb/plugin
 */
+
+/** Add custom endpoint to WP REST API
+ * that returns the Scripture of the Day (id=8)
+ * site logo defined below
+ * https://api.compasshb.com/wp-json/compasshb/v1/site_logo/8
+ */
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'compasshb/v1', '/site_logo/(?P<id>\d+)', array(
+		'methods' => 'GET',
+		'callback' => 'my_awesome_func',
+	) );
+} );
+function my_awesome_func( $data ) {
+	switch_to_blog($data['id']);
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+
+	if ( empty( $image ) ) {
+		return null;
+	}
+
+	return $image;
+}
 
 /**
  * Add Scripture of the Day custom logo
