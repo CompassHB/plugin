@@ -7,6 +7,15 @@ Version: 1.4
 GitHub Plugin URI: compasshb/plugin
 */
 
+/** Adds responsive container around video embeds
+ */
+function alx_embed_html( $html ) {
+    return '<div class="video-container">' . $html . '</div>';
+}
+ 
+add_filter( 'embed_oembed_html', 'alx_embed_html', 10, 3 );
+add_filter( 'video_embed_html', 'alx_embed_html' ); // Jetpack
+
 /** Add custom endpoint to WP REST API
  * that returns the Scripture of the Day (id=8)
  * site logo defined below
