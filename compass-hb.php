@@ -3,7 +3,7 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Compass HB Web Team
-Version: 1.6
+Version: 1.7.1
 GitHub Plugin URI: compasshb/plugin
 */
 
@@ -12,9 +12,26 @@ GitHub Plugin URI: compasshb/plugin
  */
 function esv_api($content) {
 	// Scripture of the Day blog and Scripture of the Day category
-	if (get_current_blog_id() == 8 && is_category() == 1) {
-		$content .= $content . "<p>test</p>";
+	if (get_current_blog_id() == 8 && in_category(1)) {
+
+		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage='.urlencode(get_the_title).'include-footnotes=false&include-audio-link=false&audio-format=mp3';
+
+		$ch = curl_init($request);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $response = curl_exec($ch);
+
+        /* Check for 404 (file not found). */
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($httpCode == 404) {
+            Log::warning('Connection refused to  www.esvapi.org');
+            $response = 'Connection error: www.esvapi.org. Please try again.';
+        }
+        curl_close($ch);
+
+		$content . $response;
 	}
+
+	return $content;
 }
 add_filter( 'the_content', 'esv_api' );
 
