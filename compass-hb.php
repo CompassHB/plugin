@@ -2,8 +2,8 @@
 /*
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
-Author: Brad Smith
-Version: 1.5
+Author: Compass HB Web Team
+Version: 1.6
 GitHub Plugin URI: compasshb/plugin
 */
 
