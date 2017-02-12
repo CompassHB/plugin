@@ -7,6 +7,17 @@ Version: 1.5
 GitHub Plugin URI: compasshb/plugin
 */
 
+/**
+ * ESV API
+ */
+function esv_api($content) {
+	// Scripture of the Day blog and Scripture of the Day category
+	if (get_current_blog_id() == 8 && is_category() == 1) {
+		$content .= $content . "<p>test</p>";
+	}
+}
+add_filter( 'the_content', 'esv_api' );
+
 /** Adds responsive container around video embeds
  */
 function alx_embed_html( $html ) {
