@@ -14,7 +14,7 @@ function esv_api($content) {
 	// Scripture of the Day blog and Scripture of the Day category
 	if (get_current_blog_id() == 8 && in_category(1)) {
 
-		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage='.urlencode(get_the_title).'include-footnotes=false&include-audio-link=false&audio-format=mp3';
+		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage='.urlencode(get_the_title()).'include-footnotes=false&include-audio-link=false&audio-format=mp3';
 
 		$ch = curl_init($request);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
