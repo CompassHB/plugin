@@ -29,6 +29,7 @@ function esv_api($content) {
         curl_close($ch);
 
 		$content .= $response;
+		$content .= '<center><p><a href="http://www.compasshb.com/read">View Comments</a></p></center>';
 	}
 
 	return $content;
