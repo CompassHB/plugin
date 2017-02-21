@@ -3,7 +3,7 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Compass HB Web Team
-Version: 1.7.7
+Version: 1.7.8
 GitHub Plugin URI: compasshb/plugin
 */
 
