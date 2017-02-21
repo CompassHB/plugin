@@ -15,8 +15,8 @@ function esv_api($content) {
 	// Scripture of the Day blog and Scripture of the Day category, API request only
 	if (get_current_blog_id() == 8 && 
 	    in_category(1) &&
-	    defined( 'JSON_REQUEST' ) && 
-	    JSON_REQUEST ) {
+	    defined( 'REST_REQUEST' ) && 
+	    REST_REQUEST ) {
 
 		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage='.urlencode(get_the_title()).'&include-footnotes=false&include-audio-link=false&audio-format=mp3';
 
