@@ -34,13 +34,7 @@ function esv_api($content) {
 	        curl_close($ch);
 
 		$content .= $response;
-		
-		// Replace class names with tags to help React styling on mobile app
-		$content = str_replace('<span class="woc"', '<spanwoc', $content);	
-		$content = str_replace('<span class="verse-num"', '<spanverse', $content);
-		$content = str_replace('<span class="verse-num woc"', '<spanwocverse', $content);	
-		$content = str_replace('<h4 class="textual-note"', '<h4textualnote', $content);
-	}	
+	}
 
 	return $content;
 }
