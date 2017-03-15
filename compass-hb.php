@@ -3,7 +3,7 @@
 Plugin Name: Compass HB
 Description: Required for api.compasshb.com
 Author: Compass HB Web Team
-Version: 1.7.8
+Version: 1.7.9
 GitHub Plugin URI: compasshb/plugin
 */
 
@@ -155,6 +155,22 @@ function tribe_events_rest_support()
 	}
 
 }
+
+/**
+ * Add REST API support to an already registered taxonomy(tribe_events_cat).
+ *
+ * @since 1.0.0
+ */
+function tribe_events_cat_custom_taxonomy_rest_support() {
+    global $wp_taxonomies;
+    $taxonomy_name = 'tribe_events_cat';
+    if ( isset( $wp_taxonomies[ $taxonomy_name ] ) ) {
+        $wp_taxonomies[ $taxonomy_name ]->show_in_rest = true;
+        $wp_taxonomies[ $taxonomy_name ]->rest_base = $taxonomy_name;
+        $wp_taxonomies[ $taxonomy_name ]->rest_controller_class = 'WP_REST_Terms_Controller';
+    }
+}
+add_action( 'init', 'tribe_events_cat_custom_taxonomy_rest_support', 25 );
 
 function rest_prepare_post_tag( $response, $object ) {
     if ( $object instanceof WP_Term ) {
