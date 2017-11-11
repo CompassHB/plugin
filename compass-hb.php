@@ -18,7 +18,7 @@ function esv_api($content) {
 	    defined( 'REST_REQUEST' ) && 
 	    REST_REQUEST ) {
 
-		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage='.urlencode(get_the_title()).'&include-footnotes=false&include-audio-link=false&audio-format=mp3';
+		$request = 'http://www.esvapi.org/v2/rest/passageQuery?key=TEST&passage='.urlencode(get_the_title()).'&include-footnotes=false&include-audio-link=false&audio-format=mp3';
 
 		$ch = curl_init($request);
 	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
